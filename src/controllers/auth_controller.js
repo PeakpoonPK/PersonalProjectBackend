@@ -52,10 +52,13 @@ exports.login = async (req, res, next) => {
         const accessToken = jwt.sign(payload, process.env.JWT_SECRET_KEY || 'lkjhgfdsa', {
             expiresIn: process.env.JWT_EXPIRE
         })
-        res.status(200).json({ accessToken })
+        delete user.password;
+        res.status(201).json({ accessToken, user })
     } catch (err) {
         next(err)
     }
 }
-
+exports.getMe = (req, res, next) => {
+    res.status(200).json({ user: req.user })
+}
 
