@@ -15,4 +15,5 @@ router.patch(
 
 router.get('/:userId', authenticatedMiddleware, userController.getUserById)
 
+
 module.exports = router;
