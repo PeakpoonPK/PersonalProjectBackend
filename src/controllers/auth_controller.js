@@ -21,7 +21,7 @@ exports.register = async (req, res, next) => {
         })
         delete user.password
         // console.log(user)
-        res.status(201).json({ accessToken, user })
+        res.status(201).json({ accessToken, user, message: "Registration Successful!" })
         // console.log(value)
         // res.status(200).json({ message: "Registration Successful!" })
     } catch (err) {
