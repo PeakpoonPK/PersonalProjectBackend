@@ -26,6 +26,7 @@ exports.updateProfile = async (req, res, next) => {
         const oldData = await prisma.user.findFirst({ where: { id: req.user.id } });
         const newData = req.body
         const patchData = { ...oldData, ...newData }
+        console.log(req.body)
         const updateProfile = await prisma.user.update({
             data: patchData,
             where: { id: req.user.id }
