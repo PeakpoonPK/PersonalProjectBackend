@@ -22,7 +22,7 @@ module.exports = async (req, res, next) => {
         }
         delete user.password;
         req.user = user;
-        console.log(req.user)
+        // console.log(req.user)
         next();
     } catch (err) {
         if (err.name === 'TokenExpiredError' || err.name === 'JsonWebToken') {

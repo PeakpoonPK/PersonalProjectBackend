@@ -34,10 +34,12 @@ exports.updateProfile = async (req, res, next) => {
         console.log(patchData)
 
     }
-
-
     catch (err) {
         next(err);
+    } finally {
+        if (req.files.profileImage) {
+            fs.unlink(req.files.profileImage[0].path)
+        }
     }
 }
 
