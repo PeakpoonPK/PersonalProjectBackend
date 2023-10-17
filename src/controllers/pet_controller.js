@@ -5,16 +5,16 @@ const { checkpetIdSchema, checkEditPetSchema } = require('../validators/pets_val
 
 exports.Addpet = async (req, res, next) => {
     try {
-        const { value, error } = checkEditPetSchema.validate(req.body);
+        const newData = JSON.parse(req.body.petData)
+        const { value, error } = checkEditPetSchema.validate(newData);
         if (error) {
             return next(error)
         }
         value.userId = req.user.id
+
         const pets = await prisma.pets.create({
             data: value
-        });
-
-        console.log('here', req.files)
+        })
 
         if (!req.files) { }
         const response = {};
@@ -22,13 +22,12 @@ exports.Addpet = async (req, res, next) => {
 
             const url = await upload(req.files.petImage[0].path);
             response.petImage = url;
-            await prisma.pets.update({
+            await prisma.pets.create({
                 data: {
-                    petImage: url
+                    ...value,
+                    petImage: url,
+
                 },
-                where: {
-                    id: req.pets.Iid
-                }
             })
         }
         res.status(201).json({ pets, message: "Add pet Successful!" })
