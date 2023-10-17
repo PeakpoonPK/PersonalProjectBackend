@@ -31,7 +31,6 @@ exports.Addpet = async (req, res, next) => {
                 }
             })
         }
-
         res.status(201).json({ pets, message: "Add pet Successful!" })
         // res.status(201).json({ message: "Add pet Successful!", URL })
     } catch (err) {
