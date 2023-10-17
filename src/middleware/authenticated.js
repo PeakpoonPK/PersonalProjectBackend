@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const prisma = require('../models/prisma')
 
 module.exports = async (req, res, next) => {
+
     try {
         const authorization = req.headers.authorization;
         console.log(authorization)

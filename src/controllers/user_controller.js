@@ -6,9 +6,7 @@ const { checkUserIdSchema } = require('../validators/user_validator')
 
 exports.updateProfile = async (req, res, next) => {
     try {
-        if (!req.files) {
-            return next(createError('profile image is required'));
-        }
+        if (!req.files) { }
         const response = {};
         if (req.files.profileImage) {
             const url = await upload(req.files.profileImage[0].path);
@@ -22,11 +20,10 @@ exports.updateProfile = async (req, res, next) => {
                 }
             })
         }
-
         const oldData = await prisma.user.findFirst({ where: { id: req.user.id } });
-        const newData = req.body
+        const newData = JSON.parse(req.body.userData)
         const patchData = { ...oldData, ...newData }
-        console.log(req.body)
+        // console.log(req.body)
         const updateProfile = await prisma.user.update({
             data: patchData,
             where: { id: req.user.id }

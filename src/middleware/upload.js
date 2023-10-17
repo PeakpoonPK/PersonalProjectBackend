@@ -6,7 +6,7 @@ const storage = multer.diskStorage(
             cb(null, 'public')
         },
         filename: (req, file, cb) => {
-            console.log(file);
+
             const split = file.originalname.split('.')
             cb(null, ' ' + Date.now() + Math.round(Math.random() * 1000000) + '.' + split[split.length - 1]);
         }
