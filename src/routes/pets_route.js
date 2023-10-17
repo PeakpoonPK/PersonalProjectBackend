@@ -5,6 +5,13 @@ const uploadMiddleware = require('../middleware/upload')
 
 const router = express.Router();
 
+router.post('/add', authenticatedMiddleware,
+    uploadMiddleware.fields([
+        { name: 'petImage', maxCount: 1 },
+        { name: 'petData', maxcount: 1 }
+    ]), petController.Addpet)
+
+
 router.patch('/', authenticatedMiddleware,
     uploadMiddleware.fields([
         { name: 'petImage', maxCount: 1 },

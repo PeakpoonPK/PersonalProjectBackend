@@ -1,7 +1,44 @@
 const { upload } = require('../utilis/cloudinary_service');
 const prisma = require('../models/prisma');
 const fs = require('fs/promises')
-const { checkpetIdSchema } = require('../validators/pets_validator')
+const { checkpetIdSchema, checkEditPetSchema } = require('../validators/pets_validator')
+
+exports.Addpet = async (req, res, next) => {
+    try {
+        const { value, error } = checkEditPetSchema.validate(req.body);
+        if (error) {
+            return next(error)
+        }
+        value.userId = req.user.id
+        const pets = await prisma.pets.create({
+            data: value
+        });
+
+        console.log('here', req.files)
+
+        if (!req.files) { }
+        const response = {};
+        if (req.files) {
+
+            const url = await upload(req.files.petImage[0].path);
+            response.petImage = url;
+            await prisma.pets.update({
+                data: {
+                    petImage: url
+                },
+                where: {
+                    id: req.pets.Iid
+                }
+            })
+        }
+
+        res.status(201).json({ pets, message: "Add pet Successful!" })
+        // res.status(201).json({ message: "Add pet Successful!", URL })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 
 exports.updatePet = async (req, res, next) => {
     try {
