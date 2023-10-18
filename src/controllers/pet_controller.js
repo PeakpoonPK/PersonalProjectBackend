@@ -2,8 +2,8 @@ const { upload } = require('../utilis/cloudinary_service');
 const prisma = require('../models/prisma');
 const fs = require('fs/promises')
 const { checkpetIdSchema, checkEditPetSchema } = require('../validators/pets_validator');
-const { checkUserIdSchema } = require('../validators/user_validator');
-const { param } = require('../routes/pets_route');
+
+
 
 exports.Addpet = async (req, res, next) => {
     try {
@@ -13,29 +13,32 @@ exports.Addpet = async (req, res, next) => {
             return next(error)
         }
         value.userId = req.user.id
-
-        const pets = await prisma.pets.create({
-            data: value
-        })
-
-        if (!req.files) { }
-        const response = {};
-        if (req.files) {
-
-            const url = await upload(req.files.petImage[0].path);
+        if (!req.file) {
+            const pets = await prisma.pets.create({
+                data: value
+            })
+            return res.status(201).json({ pets, message: "Add pet Successful!" })
+        }
+        else {
+            const response = {};
+            const url = await upload(req.file.path);
             response.petImage = url;
-            await prisma.pets.create({
+            const pets = await prisma.pets.create({
                 data: {
                     ...value,
                     petImage: url,
-
                 },
             })
+            return res.status(201).json({ pets, message: "Add pet Successful!" })
         }
-        res.status(201).json({ pets, message: "Add pet Successful!" })
+
         // res.status(201).json({ message: "Add pet Successful!", URL })
     } catch (err) {
         console.log(err)
+    } finally {
+        if (req.file) {
+            fs.unlink(req.file.path)
+        }
     }
 }
 
