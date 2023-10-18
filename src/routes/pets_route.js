@@ -19,7 +19,10 @@ router.patch('/', authenticatedMiddleware,
     ]),
     petController.updatePet);
 
+router.get('/all', authenticatedMiddleware, petController.getAllPetByUserId)
 router.get('/:petId', authenticatedMiddleware, petController.getPetById)
+
+
 
 
 module.exports = router;

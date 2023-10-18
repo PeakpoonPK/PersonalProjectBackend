@@ -1,7 +1,9 @@
 const { upload } = require('../utilis/cloudinary_service');
 const prisma = require('../models/prisma');
 const fs = require('fs/promises')
-const { checkpetIdSchema, checkEditPetSchema } = require('../validators/pets_validator')
+const { checkpetIdSchema, checkEditPetSchema } = require('../validators/pets_validator');
+const { checkUserIdSchema } = require('../validators/user_validator');
+const { param } = require('../routes/pets_route');
 
 exports.Addpet = async (req, res, next) => {
     try {
@@ -87,6 +89,19 @@ exports.getPetById = async (req, res, next) => {
         const pet = await prisma.pet.findUnique({
             where: {
                 id: petId
+            }
+        });
+        res.status(200).json({ pet })
+    } catch (err) {
+        next(err)
+    }
+}
+
+exports.getAllPetByUserId = async (req, res, next) => {
+    try {
+        const pet = await prisma.pets.findMany({
+            where: {
+                userId: +req.user.id
             }
         });
         res.status(200).json({ pet })
