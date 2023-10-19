@@ -31,7 +31,7 @@ exports.updateProfile = async (req, res, next) => {
         );
         res.status(201).json({ updateProfile })
 
-        console.log(patchData)
+        // console.log(patchData)
 
     }
     catch (err) {

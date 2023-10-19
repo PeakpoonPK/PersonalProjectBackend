@@ -59,6 +59,7 @@ exports.updatePet = async (req, res, next) => {
                 }
             })
         }
+        console.log(first)
         console.log(req.params)
         const oldData = await prisma.pets.findFirst({ where: { id: +req.params.petId } });
         console.log(req.body)
@@ -78,9 +79,9 @@ exports.updatePet = async (req, res, next) => {
     catch (err) {
         next(err);
     } finally {
-        // if (req.files.petImage) {
-        //     fs.unlink(req.files.petImage[0].path)
-        // }
+        if (req.files.petImage) {
+            fs.unlink(req.files.petImage[0].path)
+        }
     }
 }
 
