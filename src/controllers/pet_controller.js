@@ -59,21 +59,19 @@ exports.updatePet = async (req, res, next) => {
                 }
             })
         }
-        console.log(first)
-        console.log(req.params)
         const oldData = await prisma.pets.findFirst({ where: { id: +req.params.petId } });
-        console.log(req.body)
+        const a = JSON.parse(req.body.petData)
 
-        const patchData = { ...oldData, ...req.body }
-        console.log(patchData)
-        // console.log(req.body)
+        const patchData = { ...oldData, ...a }
+
+        delete patchData.petData
+        console.log('here', patchData)
         const updatePet = await prisma.pets.update({
             data: patchData,
-            where: { id: patchData.id }
+            where: { id: 1 }
         }
         );
         res.status(201).json({ updatePet })
-        // console.log(patchData)
 
     }
     catch (err) {

@@ -15,6 +15,12 @@ module.exports = async (req, res, next) => {
         const user = await prisma.user.findUnique({
             where: {
                 id: payload.userId
+            }, include: {
+                Pets: {
+                    where: {
+                        userId: payload.userId
+                    }
+                }
             }
         });
         if (!user) {
