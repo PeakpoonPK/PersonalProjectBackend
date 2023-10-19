@@ -3,6 +3,7 @@ const { registerPrismaSchema, loginPrismaSchema } = require("../validators/auth_
 const bcrypt = require('bcryptjs');
 const prisma = require('../models/prisma');
 const createError = require('../utilis/create_error');
+const { checkPetIdSchema } = require('../validators/pets_validator');
 
 exports.register = async (req, res, next) => {
     try {
@@ -61,4 +62,5 @@ exports.login = async (req, res, next) => {
 exports.getMe = (req, res, next) => {
     res.status(200).json({ user: req.user })
 }
+
 

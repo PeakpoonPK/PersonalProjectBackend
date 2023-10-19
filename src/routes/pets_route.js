@@ -8,8 +8,8 @@ const router = express.Router();
 router.post('/add', authenticatedMiddleware,
     uploadMiddleware.single('petImage'), petController.Addpet)
 
-
-router.patch('/', authenticatedMiddleware,
+router.patch('/:petId',
+    authenticatedMiddleware,
     uploadMiddleware.fields([
         { name: 'petImage', maxCount: 1 },
         { name: 'petData', maxcount: 1 }
@@ -19,6 +19,9 @@ router.patch('/', authenticatedMiddleware,
 router.get('/all', authenticatedMiddleware, petController.getAllPetByUserId)
 
 router.get('/:petId', authenticatedMiddleware, petController.getPetById)
+
+
+router.delete('/:petId', authenticatedMiddleware, petController.deletePetbyId);
 
 
 
