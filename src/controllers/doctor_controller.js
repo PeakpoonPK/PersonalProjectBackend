@@ -40,10 +40,9 @@ exports.AddDoctor = async (req, res, next) => {
         console.log(err)
     }
     finally {
-        //     if (req.file) {
-        //         fs.unlink(req.file.path)
-        //     }
-        // }
+        if (req.file) {
+            fs.unlink(req.file.path)
+        }
     }
 }
 
@@ -110,8 +109,14 @@ exports.getDoctorById = async (req, res, next) => {
     }
 }
 
-exports.getAllDoctor = (req, res, next) => {
-    res.status(200).json({ doctor: req.doctor })
+exports.getAllDoctor = async (req, res, next) => {
+    try {
+        const doctor = await prisma.doctors.findMany({
+        });
+        res.status(200).json({ doctor })
+    } catch (err) {
+        next(err)
+    }
 }
 
 exports.deleteDoctorbyId = async (req, res, next) => {

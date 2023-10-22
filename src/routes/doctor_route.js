@@ -16,7 +16,7 @@ router.patch('/:doctorId',
     ]),
     doctorController.updateDoctor);
 
-router.get('/all', authenticatedMiddleware, doctorController.getAllDoctor)
+router.get('/doctor', authenticatedMiddleware, doctorController.getAllDoctor)
 
 router.get('/:doctorId', authenticatedMiddleware, doctorController.getDoctorById)
 

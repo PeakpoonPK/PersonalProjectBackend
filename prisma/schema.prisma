@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -35,27 +32,27 @@ model Pets {
   drugAllergy String?
   Other       String?
   userId      Int
-  user        User          @relation(fields: [userId], references: [id])
   Appointment Appointment[]
+  user        User          @relation(fields: [userId], references: [id])
 }
 
 model Doctors {
   id              Int           @id @default(autoincrement())
-  firstNameDoctor String
   lastNameDoctor  String
   specialist      String
   doctorImage     String?
+  firstNameDoctor String
   Appointment     Appointment[]
 }
 
 model Appointment {
-  id        Int      @id @default(autoincrement())
-  startTime DateTime
-  endTime   DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  petId     Int
-  pet       Pets     @relation(fields: [petId], references: [id])
-  doctorId  Int
-  doctor    Doctors  @relation(fields: [doctorId], references: [id])
+  id         Int      @id @default(autoincrement())
+  date       String
+  timePeroid String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  petId      Int
+  doctorId   Int
+  doctor     Doctors  @relation(fields: [doctorId], references: [id])
+  pet        Pets     @relation(fields: [petId], references: [id])
 }
