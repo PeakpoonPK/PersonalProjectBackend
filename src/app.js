@@ -7,7 +7,8 @@ const errorMiddleware = require('./middleware/error')
 const rateLimitMiddleware = require('./middleware/rate_limit')
 const authRoute = require('./routes/auth_route')
 const userRoute = require('./routes/user_route')
-const petRoute = require('./routes/pets_route')
+const petRoute = require('./routes/pets_route');
+const doctorRoute = require('./routes/doctor_route');
 
 
 const app = express();
@@ -19,7 +20,8 @@ app.use(express.json());
 
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
-app.use('/pets', petRoute)
+app.use('/pets', petRoute);
+app.use('/admin', doctorRoute)
 
 app.use(notfoundMiddleware);
 app.use(errorMiddleware);

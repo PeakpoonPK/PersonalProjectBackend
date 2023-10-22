@@ -44,12 +44,13 @@ exports.Addpet = async (req, res, next) => {
 
 exports.updatePet = async (req, res, next) => {
     try {
+        const petId = +req.params.petId
         if (!req.files) { }
         const response = {};
         if (req.files.petImage) {
             const url = await upload(req.files.petImage[0].path);
             response.petImage = url;
-            const petId = +req.params.petId
+
             await prisma.pets.update({
                 data: {
                     petImage: url
@@ -59,16 +60,19 @@ exports.updatePet = async (req, res, next) => {
                 }
             })
         }
+
         const oldData = await prisma.pets.findFirst({ where: { id: +req.params.petId } });
         const a = JSON.parse(req.body.petData)
 
         const patchData = { ...oldData, ...a }
 
-        delete patchData.petData
+
         console.log('here', patchData)
         const updatePet = await prisma.pets.update({
             data: patchData,
-            where: { id: 1 }
+            where: {
+                id: petId
+            }
         }
         );
         res.status(201).json({ updatePet })
@@ -122,6 +126,7 @@ exports.deletePetbyId = async (req, res, next) => {
             return next(error);
         }
         const petId = value.petId
+        console.log(petId)
         await prisma.pets.delete({
             where: {
                 id: petId

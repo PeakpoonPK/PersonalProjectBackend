@@ -19,7 +19,7 @@ const EditUserProfileSchema = Joi.object({
         'string.pattern.base': 'Password must be between 8 and 30 characters and contain only letters and numbers.'
     }),
     lineId: Joi.string().trim().required(),
-    address: Joi.string().trim().required()
+    address: Joi.string().trim().required(),
 })
 
 exports.EditUserProfileSchema = EditUserProfileSchema
