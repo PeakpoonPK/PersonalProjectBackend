@@ -10,14 +10,12 @@ router.post('/add', authenticatedMiddleware, appointmentController.AddAppointmen
 
 
 
-// router.patch('/:appointmentId', authenticatedMiddleware,appointmentController.updateDoctor);
+router.get('/all', authenticatedMiddleware, appointmentController.getAllAppointmentBypetIdOfUserId)
 
-// router.get('/appointment', authenticatedMiddleware,appointmentController.getAllDoctor)
-
-// router.get('/:appointment', authenticatedMiddleware, appointmentController.getDoctorById)
+router.get('/:appointmentId', authenticatedMiddleware, appointmentController.getAppointmentById)
 
 
-// router.delete('/:appointmentId', authenticatedMiddleware,appointmentController.deleteDoctorbyId);
+router.delete('/:appointmentId', authenticatedMiddleware, appointmentController.deleteAppointmentbyId);
 
 
 module.exports = router;

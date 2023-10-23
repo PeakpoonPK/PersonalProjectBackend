@@ -1,11 +1,11 @@
 const Joi = require('joi');
 
-const checkAppoointmentIdSchema = Joi.object({
+const checkAppointmentIdSchema = Joi.object({
     appointmentId: Joi.number().integer().positive().required()
 });
 
 
-exports.checkAppoointmentIdSchema = checkAppoointmentIdSchema;
+exports.checkAppointmentIdSchema = checkAppointmentIdSchema;
 
 const checkEditAppointmentSchema = Joi.object({
     date: Joi.string().trim().required(),

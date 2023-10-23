@@ -1,7 +1,6 @@
-const { upload } = require('../utilis/cloudinary_service');
 const prisma = require('../models/prisma');
 const fs = require('fs/promises')
-const { checkEditAppointmentSchema, checkAppoointmentIdSchema } = require('../validators/appointment_validator');
+const { checkEditAppointmentSchema, checkAppointmentIdSchema } = require('../validators/appointment_validator');
 
 
 
@@ -13,7 +12,6 @@ exports.AddAppointment = async (req, res, next) => {
             return next(error)
         }
         console.log(value)
-
         const appointment = await prisma.appointment.create({
             data: value
         });
@@ -68,51 +66,58 @@ exports.AddAppointment = async (req, res, next) => {
 //     }
 // }
 
-// exports.getDoctorById = async (req, res, next) => {
-//     try {
-//         const { error } = checkDoctorIdSchema.validate(req.params);
-//         if (error) {
-//             return next(error);
-//         };
-//         const doctorId = +req.params.doctorId;
-//         console.log(doctorId)
-//         const doctor = await prisma.doctors.findUnique({
-//             where: {
-//                 id: doctorId
-//             }
-//         });
-//         res.status(200).json({ doctor })
-//     } catch (err) {
-//         next(err)
-//     }
-// }
+exports.getAppointmentById = async (req, res, next) => {
+    try {
+        const { error } = checkAppointmentIdSchema.validate(req.params);
+        if (error) {
+            return next(error);
+        };
+        const appointmentId = +req.params.appointmentId;
+        console.log(appointmentId)
+        const appointment = await prisma.appointment.findUnique({
+            where: {
+                id: appointmentId
+            }
+        });
+        res.status(200).json({ appointment })
+    } catch (err) {
+        next(err)
+    }
+}
 
-// exports.getAllDoctor = async (req, res, next) => {
-//     try {
-//         const doctor = await prisma.doctors.findMany({
-//         });
-//         res.status(200).json({ doctor })
-//     } catch (err) {
-//         next(err)
-//     }
-// }
+exports.getAllAppointmentBypetIdOfUserId = async (req, res, next) => {
+    try {
+        const appointment = await prisma.appointment.findMany({
+            where: {
+                petId: {
+                    userId: + req.user.id
+                }
+            }
+        });
+        res.status(200).json({ appointment })
+    } catch (err) {
+        next(err)
+    }
+}
 
-// exports.deleteDoctorbyId = async (req, res, next) => {
-//     try {
-//         const { value, error } = checkDoctorIdSchema.validate(req.params);
-//         if (error) {
-//             return next(error);
-//         }
-//         const doctorId = value.doctorId
-//         console.log(doctorId)
 
-//         await prisma.doctors.delete({
-//             where: {
-//                 id: doctorId
-//             }
-//         });
-//         res.status(200).json({ message: 'deleted' })
-//     } catch (err) {
-//         next(err)
-//     }
-// };
+exports.deleteAppointmentbyId = async (req, res, next) => {
+    try {
+        const { value, error } = checkAppointmentIdSchema.validate(req.params);
+        console.log(req.params)
+        if (error) {
+            return next(error);
+        }
+        const appointmentId = value.appointmentId
+        console.log(appointmentId)
+
+        await prisma.appointment.delete({
+            where: {
+                id: appointmentId
+            }
+        });
+        res.status(200).json({ message: 'deleted' })
+    } catch (err) {
+        next(err)
+    }
+};
