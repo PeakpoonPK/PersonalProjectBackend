@@ -66,6 +66,41 @@ exports.AddAppointment = async (req, res, next) => {
 //     }
 // }
 
+
+
+exports.getAllAppointmentBypetIdOfUserId = async (req, res, next) => {
+    try {
+        const pet = await prisma.pets.findMany({
+            where: {
+                userId: +req.user.id
+            },
+        });
+
+        const appointment = await prisma.appointment.findMany({
+            // where: {
+            //     OR: pet.map(el => { return { petId: el.id } })
+            // }
+            where: {
+                petId: { in: pet.map(el => el.id) }
+            }, include: {
+                pet: {
+                    select: {
+                        petName: true,
+                        petImage: true
+                    }
+                }
+
+                , doctor: true
+            }
+
+        });
+
+        res.status(200).json({ appointment })
+    } catch (err) {
+        next(err)
+    }
+}
+
 exports.getAppointmentById = async (req, res, next) => {
     try {
         const { error } = checkAppointmentIdSchema.validate(req.params);
@@ -84,22 +119,6 @@ exports.getAppointmentById = async (req, res, next) => {
         next(err)
     }
 }
-
-exports.getAllAppointmentBypetIdOfUserId = async (req, res, next) => {
-    try {
-        const appointment = await prisma.appointment.findMany({
-            where: {
-                petId: {
-                    userId: + req.user.id
-                }
-            }
-        });
-        res.status(200).json({ appointment })
-    } catch (err) {
-        next(err)
-    }
-}
-
 
 exports.deleteAppointmentbyId = async (req, res, next) => {
     try {
