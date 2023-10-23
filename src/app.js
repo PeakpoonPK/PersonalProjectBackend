@@ -9,6 +9,7 @@ const authRoute = require('./routes/auth_route')
 const userRoute = require('./routes/user_route')
 const petRoute = require('./routes/pets_route');
 const doctorRoute = require('./routes/doctor_route');
+const appointmentRoute = require('./routes/appointment_route')
 
 
 const app = express();
@@ -22,6 +23,7 @@ app.use('/auth', authRoute);
 app.use('/user', userRoute);
 app.use('/pets', petRoute);
 app.use('/admin', doctorRoute)
+app.use('/booking', appointmentRoute)
 
 app.use(notfoundMiddleware);
 app.use(errorMiddleware);

@@ -24,6 +24,4 @@ router.get('/:doctorId', authenticatedMiddleware, doctorController.getDoctorById
 router.delete('/:doctorId', authenticatedMiddleware, doctorController.deleteDoctorbyId);
 
 
-
-
 module.exports = router;

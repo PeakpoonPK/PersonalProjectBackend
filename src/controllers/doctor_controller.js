@@ -127,6 +127,7 @@ exports.deleteDoctorbyId = async (req, res, next) => {
         }
         const doctorId = value.doctorId
         console.log(doctorId)
+
         await prisma.doctors.delete({
             where: {
                 id: doctorId
