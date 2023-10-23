@@ -120,6 +120,24 @@ exports.getAppointmentById = async (req, res, next) => {
     }
 }
 
+exports.getAllAppointment = async (req, res, next) => {
+    try {
+        const appointment = await prisma.appointment.findMany({
+            include: {
+                pet: {
+                    select: {
+                        petName: true,
+                    }
+                }
+                , doctor: true
+            }
+        });
+        res.status(200).json({ appointment })
+    } catch (err) {
+        next(err)
+    }
+}
+
 exports.deleteAppointmentbyId = async (req, res, next) => {
     try {
         const { value, error } = checkAppointmentIdSchema.validate(req.params);

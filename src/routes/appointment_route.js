@@ -12,7 +12,7 @@ router.post('/add', authenticatedMiddleware, appointmentController.AddAppointmen
 
 router.get('/all', authenticatedMiddleware, appointmentController.getAllAppointmentBypetIdOfUserId)
 
-// router.get('/:appointmentId', authenticatedMiddleware, appointmentController.getAppointmentById)
+router.get('/allbooking', authenticatedMiddleware, appointmentController.getAllAppointment)
 
 
 router.delete('/:appointmentId', authenticatedMiddleware, appointmentController.deleteAppointmentbyId);
