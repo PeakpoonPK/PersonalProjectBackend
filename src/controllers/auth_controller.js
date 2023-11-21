@@ -3,6 +3,7 @@ const { registerPrismaSchema, loginPrismaSchema } = require("../validators/auth_
 const bcrypt = require('bcryptjs');
 const prisma = require('../models/prisma');
 const createError = require('../utilis/create_error');
+const { checkPetIdSchema } = require('../validators/pets_validator');
 
 exports.register = async (req, res, next) => {
     try {
@@ -21,7 +22,7 @@ exports.register = async (req, res, next) => {
         })
         delete user.password
         // console.log(user)
-        res.status(201).json({ accessToken, user })
+        res.status(201).json({ accessToken, user, message: "Registration Successful!" })
         // console.log(value)
         // res.status(200).json({ message: "Registration Successful!" })
     } catch (err) {
@@ -52,10 +53,14 @@ exports.login = async (req, res, next) => {
         const accessToken = jwt.sign(payload, process.env.JWT_SECRET_KEY || 'lkjhgfdsa', {
             expiresIn: process.env.JWT_EXPIRE
         })
-        res.status(200).json({ accessToken })
+        delete user.password;
+        res.status(201).json({ accessToken, user })
     } catch (err) {
         next(err)
     }
+}
+exports.getMe = (req, res, next) => {
+    res.status(200).json({ user: req.user })
 }
 
 
