@@ -8,17 +8,17 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   firstName    String
   lastName     String
-  email        String   @unique
-  mobile_1     String   @unique
+  email        String  @unique
+  mobile_1     String  @unique
   password     String
-  mobile_2     String?  @unique
-  lineId       String?  @unique
+  mobile_2     String? @unique
+  lineId       String? @unique
   address      String?
   profileImage String?
-  isAdmin      Boolean?
+  isAdmin      Boolean @default(false)
   Pets         Pets[]
 }
 
